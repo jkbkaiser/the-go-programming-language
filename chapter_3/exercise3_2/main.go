@@ -26,16 +26,16 @@ func main() {
 			bx, by := corner(i, j)
 			cx, cy := corner(i, j+1)
 			dx, dy := corner(i+1, j+1)
-            if math.IsInf(ax, 0) ||
-                math.IsInf(ay, 0) ||
-                math.IsInf(bx, 0) ||
-                math.IsInf(by, 0) ||
-                math.IsInf(cx, 0) ||
-                math.IsInf(cy, 0) ||
-                math.IsInf(dx, 0) ||
-                math.IsInf(dy, 0) {
-                continue
-            }
+			if math.IsInf(ax, 0) ||
+				math.IsInf(ay, 0) ||
+				math.IsInf(bx, 0) ||
+				math.IsInf(by, 0) ||
+				math.IsInf(cx, 0) ||
+				math.IsInf(cy, 0) ||
+				math.IsInf(dx, 0) ||
+				math.IsInf(dy, 0) {
+				continue
+			}
 			fmt.Printf("<polygon points='%g,%g %g,%g %g,%g %g,%g'/>\n",
 				ax, ay, bx, by, cx, cy, dx, dy)
 		}
@@ -48,7 +48,7 @@ func corner(i, j int) (float64, float64) {
 	x := xyrange * (float64(i)/cells - 0.5)
 	y := xyrange * (float64(j)/cells - 0.5)
 	// Compute surface height z.
-	z := saddle(x, y)
+	z := eggBox(x, y)
 	// Project (x,y,z) isometrically onto 2-D SVG canvas (sx,sy).
 	sx := width/2 + (x-y)*cos30*xyscale
 	sy := height/2 + (x+y)*sin30*xyscale - z*zscale

@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "fmt"
 	"image"
 	"image/color"
 	"image/png"
@@ -14,21 +15,25 @@ func main() {
 		width, height          = 1024, 1024
 	)
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
+
+	dx := float64(0.5) / width * (xmax - xmin)
+	dy := float64(0.5) / height * (ymax - ymin)
+
 	for py := 0; py < height; py++ {
 		y := float64(py)/height*(ymax-ymin) + ymin
 		for px := 0; px < width; px++ {
 			x := float64(px)/width*(xmax-xmin) + xmin
-			a1, a2, a3 := mandelbrot(complex(x+0.5, y+0.5))
-			b1, b2, b3 := mandelbrot(complex(x-0.5, y+0.5))
-			c1, c2, c3 := mandelbrot(complex(x+0.5, y-0.5))
-			d1, d2, d3 := mandelbrot(complex(x-0.5, y-0.5))
+			a1, a2, a3 := mandelbrot(complex(x+dx, y+dy))
+			b1, b2, b3 := mandelbrot(complex(x+dx, y-dy))
+			c1, c2, c3 := mandelbrot(complex(x-dx, y+dy))
+			d1, d2, d3 := mandelbrot(complex(x-dx, y-dy))
 
 			c := color.RGBA{
-                (a1+b1+c1+d1)/4,
-                (a2+b2+c2+d2)/4,
-                (a3+b3+c3+d3)/4,
-                100,
-            }
+				(a1 + b1 + c1 + d1) / 4,
+				(a2 + b2 + c2 + d2) / 4,
+				(a3 + b3 + c3 + d3) / 4,
+				100,
+			}
 
 			// Image point (px, py) represents complex value z.
 			img.Set(px, py, c)

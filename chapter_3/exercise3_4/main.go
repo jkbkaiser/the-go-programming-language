@@ -1,4 +1,5 @@
 package main
+
 // Example query http://localhost:8000/?width=1000&height=600&peak_color=%230000FF&valley_color=%230000FF
 
 import (
@@ -23,6 +24,7 @@ var (
 var sin30, cos30 = math.Sin(angle), math.Cos(angle) // sin(30°), cos(30°)
 
 func writeSvg(w http.ResponseWriter) {
+	fmt.Printf(peak_color)
 	fmt.Fprintf(w, "<svg xmlns='http://www.w3.org/2000/svg' "+
 		"style='stroke: grey; fill: white; stroke-width: 0.7' "+
 		"width='%d' height='%d'>", width, height)
@@ -94,31 +96,29 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "image/svg+xml")
 
-    var err error
+	var err error
 	height, err = strconv.Atoi(r.Form.Get("height"))
 	if err != nil {
-        fmt.Printf("Error parsing height: %v", err)
-    }
+		fmt.Printf("Error parsing height: %v", err)
+	}
 
-    if len(r.Form.Get("height")) > 0 {
-        width, err = strconv.Atoi(r.Form.Get("height"))
-    }
+	if len(r.Form.Get("height")) > 0 {
+		width, err = strconv.Atoi(r.Form.Get("height"))
+	}
 
+	if len(r.Form.Get("width")) > 0 {
+		width, err = strconv.Atoi(r.Form.Get("width"))
+	}
 
-    if len(r.Form.Get("width")) > 0 {
-        width, err = strconv.Atoi(r.Form.Get("width"))
-    }
+	peak_color_str := r.Form.Get("peak_color")
+	if len(peak_color_str) > 0 {
+		peak_color = peak_color_str
+	}
 
-    peak_color_str := r.Form.Get("peak_color")
-    if len(peak_color_str) > 0 {
-        peak_color = peak_color_str 
-    }
-
-
-    valley_color_str := r.Form.Get("valley_color")
-    if len(valley_color_str) > 0 {
-        valley_color = valley_color_str
-    }
+	valley_color_str := r.Form.Get("valley_color")
+	if len(valley_color_str) > 0 {
+		valley_color = valley_color_str
+	}
 
 	writeSvg(w)
 }

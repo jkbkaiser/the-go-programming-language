@@ -3,18 +3,18 @@ package main
 import (
 	"bytes"
 	"fmt"
-    "strings"
+	"strings"
 )
 
 func comma(s string) string {
 	var buf bytes.Buffer
-    decimal_index := strings.Index(s, ".")
+	decimal_index := strings.Index(s, ".")
 	offset := decimal_index % 3
 
 	for i, v := range s {
 		buf.WriteRune(v)
 
-		if (i + 1) % 3 == offset && i < decimal_index - 1 {
+		if (i+1)%3 == offset && i < decimal_index-1 {
 			buf.WriteRune(',')
 		}
 	}

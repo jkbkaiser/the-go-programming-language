@@ -1,4 +1,4 @@
-package main 
+package main
 
 var pc [256]byte
 
@@ -21,10 +21,10 @@ func PopCountTable(x uint64) int {
 }
 
 func PopCountLoop(x uint64) int {
-    count := 0
-    for x != 0 {
-        x = x&(x-1)
-        count++
-    }
-    return count
+	count := 0
+	for x != 0 {
+		x = x & (x - 1)
+		count++
+	}
+	return count
 }
